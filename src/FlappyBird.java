@@ -64,6 +64,7 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
     Random random = new Random();
     boolean gameOver = false;
     boolean drawHitbox = false;
+    double score = 0;
 
     // timer
     Timer gameLoop;
@@ -135,8 +136,17 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
         for (Pipe pipe : pipes)
             g.drawImage(pipe.image, pipe.x, pipe.y, pipe.width, pipe.height, null);
 
-        if (drawHitbox)
-            g.drawRect(bird.x, bird.y, bird.width, bird.height); // Draw the square hitbox
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.PLAIN, 28));
+        if (gameOver)
+            g.drawString("Game Over: " + (int) score, 10, 35);
+        else
+            g.drawString(String.valueOf((int) score), 10, 35);
+
+        if (drawHitbox) {
+            g.setColor(Color.RED);
+            g.drawRect(bird.x, bird.y, bird.width, bird.height);
+        } // Draw the square hitbox
     }
 
     // to move the objects
@@ -144,10 +154,15 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
         velocityY += gravity;
         bird.y += velocityY;
         bird.y = Math.max(bird.y, 0); // prevent bird from going above the screen
-        // bird.y = Math.min(bird.y, boardHeight - bird.height); // prevent the bird from falling down
+        // bird.y = Math.min(bird.y, boardHeight - bird.height); // prevent the bird
+        // from falling down
 
         for (Pipe pipe : pipes) {
             pipe.x += velocityX;
+            if (!pipe.passed && bird.x > pipe.x + pipe.width) {
+                pipe.passed = true;
+                score += 0.5;
+            }
             if (collision(bird, pipe))
                 gameOver = true;
         }
@@ -180,8 +195,20 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         // when pressing spacebar
-        if (e.getKeyCode() == KeyEvent.VK_SPACE)
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             velocityY = -9;
+
+            if (gameOver) {
+                // restart the game by resetting the fields
+                bird.y = birdY;
+                velocityY = 0;
+                pipes.clear();
+                score = 0;
+                gameOver = false;
+                gameLoop.start();
+                placePipesTimer.start();
+            }
+        }
 
         if (e.getKeyCode() == KeyEvent.VK_B)
             drawHitbox = !drawHitbox;
