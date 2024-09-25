@@ -14,6 +14,7 @@ public class App {
         FlappyBird flappyBird = new FlappyBird();
         frame.add(flappyBird); // add JPanel object
         frame.pack(); // dimensions will take into account title bar if you don't do pack()
+        flappyBird.requestFocus(); // requests input focus 
         frame.setVisible(true); // make the window visible after adding JPanel
     }
 }
