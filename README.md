@@ -1,8 +1,10 @@
-## Flappy Bird Game
+# 🎮 Flappy Bird Game
 
-A simple Flappy Bird clone written in Java using the Swing framework.
+A simple Flappy Bird clone written in Java using the `Swing` framework.
 
-### How to Run
+---
+
+## 🚀 How to Run
 
 ```bash
 git clone https://github.com/ahmetyazlyyev5/FlappyBird.git
@@ -11,12 +13,16 @@ javac -d bin src/*.java
 java -cp bin App
 ```
 
-### Controls
+---
+
+## 🕹️ Controls
 
 * **Spacebar** — flap / restart
 * **B** — toggle bird hitbox
 
-### Screenshots
+---
+
+## 📸 Screenshots
 
 <table>
   <tr>
